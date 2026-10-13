@@ -1,0 +1,10 @@
+{
+  "version": "2026-10-12",
+  "jobId": "support-engineer-01",
+  "title": "Support Engineer",
+  "requirements": {
+    "minimumYearsExperience": 2,
+    "requiredSkills": ["customer support", "troubleshooting", "written English"],
+    "availability": "weekday business hours"
+  }
+}
