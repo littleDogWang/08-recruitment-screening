@@ -75,7 +75,7 @@ export async function POST(request: NextRequest) {
           end_of_speech: {
             mode: 'vad',
             vad_config: {
-              silence_duration_ms: 480, // ms of silence before turn ends
+              silence_duration_ms: 1500, // Allow thinking pauses during interview answers.
             },
           },
         },
@@ -112,7 +112,7 @@ export async function POST(request: NextRequest) {
           model: 'gpt-4o-mini',
           greetingMessage: scenario.greeting,
           failureMessage: 'Please wait a moment.',
-          maxHistory: 15,
+          maxHistory: 50, // Retain answers across the interview and follow-up questions.
           tools: scenarioTools.length > 0 ? scenarioTools : undefined,
           params: {
             max_tokens: 1024,
