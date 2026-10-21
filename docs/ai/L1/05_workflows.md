@@ -19,11 +19,17 @@ Target file: `app/api/invite-agent/route.ts`.
 
 Typical edits:
 
-- System prompt (`ADA_PROMPT`).
-- Greeting default (`GREETING`).
+- System prompt and greeting (`scenarios/06-recruitment-screening/config.ts`).
+- Job requirements and interview questions (`scenarios/06-recruitment-screening/job.json`).
 - Shared agent UID (`DEFAULT_AGENT_UID` in `lib/agora.ts`).
 - VAD (`turnDetection.config.*`).
 - STT/LLM/TTS model/provider blocks.
+
+Recruitment screening waits for 1,500 ms of silence before ending a candidate turn
+and retains 50 LLM history messages for the six topics and follow-ups. The existing
+160 ms start-of-speech setting lets candidates interrupt agent playback; it does
+not control when their answers end. Changes apply to new sessions only. Check
+short pauses and interview depth with a real microphone; API checks validate wiring.
 
 Validation path:
 

@@ -6,6 +6,14 @@
 
 Build a production-style voice agent in minutes with Next.js and the Agora Conversational AI Engine, including voice agent visualizer ([Agent UIKit](https://agoraio-conversational-ai.github.io/agent-uikit/)), live transcript, and real-time pipeline latency via `AGENT_METRICS` ([Agent Toolkit](https://github.com/AgoraIO-Conversational-AI/agent-client-toolkit-ts)).
 
+## Recruitment screening scenario
+
+This repository runs a Support Engineer interview with six practical topics and
+adaptive follow-ups. See the [scenario guide](scenarios/06-recruitment-screening/README.md)
+for reference cases and result limitations. End-of-speech detection waits for
+1,500 ms of silence to allow thinking pauses. Start a new conversation after
+changing the configuration; existing sessions retain their original settings.
+
 ## Prerequisites
 
 - [Node.js 22+](https://nodejs.org/en/download/)
@@ -205,3 +213,7 @@ Released under the [MIT License](./LICENSE).
 Default conversations retain the job.json requirements and six interview topics already embedded in the prompt. The assistant gathers candidate statements and verbally summarizes facts for human review; it does not save records or make hiring decisions. The optional tool returns a structured result only, without durable persistence.
 
 TOP_TEN_SCENARIO_TOOL_BASE_URL is optional. Only an explicitly configured public HTTPS endpoint enables tools; malformed, HTTP, localhost and local/private origins leave tools disabled. URL validation does not prove network reachability. No tunnel, knowledge base or database is needed for the default conversation. Local checks do not establish live speech or cloud callback acceptance.
+
+## Interface
+
+The interface follows scenario 01: task-specific entry and welcome, persistent scenario identity, activity canvas, transcript and Glass voice controls. Inspector shows actual session evidence; Build provides this repository’s setup commands. Business results retain their original contracts and appear below the voice workspace. Edit `scenarios/06-recruitment-screening/presentation.ts` for scenario copy. Styling uses Tailwind 4/PostCSS and the vendored theme; see `styles/agent-ui/PROVENANCE.md`. Local checks and browser rendering do not establish live voice/cloud-tool acceptance.

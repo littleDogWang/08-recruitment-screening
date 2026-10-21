@@ -1,23 +1,34 @@
-# 招聘初筛验收标准
+# Recruitment screening acceptance criteria
 
-## 必须通过
+## Required checks
 
-- 问题顺序和岗位要求一致。
-- 回答能映射到明确字段，缺失信息保持缺失。
-- 输出包含人工复核状态，不直接给出录用或淘汰结论。
-- 敏感信息不会进入自动评分依据。
-- 用户拒答或中途结束时保存已确认内容。
+- Question order matches the job requirements.
+- Answers map to explicit fields; missing information stays missing.
+- Output includes human review status without making hiring or rejection decisions.
+- Sensitive information is not used for automated scoring.
+- Confirmed facts remain in the conversation summary when the user declines to answer or ends early; do not claim persistence.
+- The outgoing agent configuration uses 1,500 ms of end-of-speech silence and preserves candidate barge-in.
+- In a microphone test, 500-1,000 ms pauses within an answer do not trigger the next question.
+- Cover all six practical topics unless already answered, skipped, or ended by the candidate.
+- Ask one question per turn; follow up on vague answers with requests for evidence, personal actions, or verification.
+- Do not reveal model answers before the candidate responds; distinguish experience from hypothetical reasoning.
 
-## 推荐用例
+## Suggested cases
 
-1. 完整回答岗位要求。
-2. 缺少到岗时间。
-3. 用户拒绝回答非必要问题。
-4. 用户主动提供敏感信息。
-5. 用户中途结束并由人工复核。
+1. Answer all job requirement questions.
+2. Omit the start date.
+3. Decline an unnecessary question.
+4. Volunteer sensitive information.
+5. End early and proceed to human review.
+6. Describe an incident with several 500-1,000 ms pauses; confirm the interviewer waits until the answer finishes.
+7. Give a vague API troubleshooting answer; confirm a follow-up asks for diagnostic evidence.
+8. Include escalation in an earlier incident answer; confirm the interviewer avoids repeating answered questions.
+9. Complete all six topics with follow-ups; confirm earlier facts remain accurate in the closing summary.
 
-## 证据
+Live microphone checks remain required; passing API or build checks alone does not establish conversational behavior.
 
-- 初筛结构化 JSON。
-- 评分/规则输入与输出对照。
-- 敏感信息未参与结论的测试记录。
+## Evidence
+
+- Structured screening JSON.
+- Scoring/rule input and output comparison.
+- Test records showing sensitive information did not influence conclusions.
