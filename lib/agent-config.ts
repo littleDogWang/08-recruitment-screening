@@ -1,5 +1,5 @@
-import type { ScenarioConfig } from '../types';
-import { RECRUITMENT_JOB } from './screening';
+import type { ScenarioConfig } from '../types/agent-config';
+import { RECRUITMENT_JOB } from './recruitment-screening/screening';
 
 export const config: ScenarioConfig = {
   id: '06-recruitment-screening',
@@ -25,3 +25,20 @@ If the candidate skips a question or stops early, retain confirmed facts in the 
 Interview questions (interviewer guidance; do not read the entire list aloud):
 ${RECRUITMENT_JOB.interviewQuestions.map((item, index) => `${index + 1}. ${item.topic}: ${item.question}\nFollow-up options (ask separately, only as needed): ${item.followUps.join(' | ')}`).join('\n\n')}`,
 };
+
+function formatScenarioPrompt(config: ScenarioConfig): string {
+  return `You are the ${config.role}
+
+# Goal and conversation flow
+${config.workflow}
+
+# Safety and truthfulness rules
+${config.guardrails}
+
+# Demo boundary
+This browser demo only has the capabilities described in this scenario. Never claim that an external action, booking, update, payment, transfer, or record write succeeded unless a configured tool returned that result.
+${config.fixtureSummary ? `\n# Demo data\n${config.fixtureSummary}` : ''}`;
+}
+
+export function getScenarioConfig(): ScenarioConfig { return config; }
+export function getScenarioPrompt(_scenarioId?: string): string { return formatScenarioPrompt(config); }

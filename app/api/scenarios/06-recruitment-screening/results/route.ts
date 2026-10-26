@@ -3,7 +3,7 @@ import {
   evaluateJobFacts,
   RECRUITMENT_JOB,
   type ScreeningAnswers,
-} from '@/scenarios/06-recruitment-screening/screening';
+} from '@/lib/recruitment-screening/screening';
 
 export async function POST(request: Request) {
   try {

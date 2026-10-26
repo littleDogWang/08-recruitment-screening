@@ -30,7 +30,7 @@ Run [Quick Start](#5-quick-start), open [http://localhost:3000](http://localhost
 | Use a hypothetical | I have not handled that incident personally, but here is how I would investigate it. | It accepts hypothetical reasoning and does not present it as past experience. |
 | Pause or skip | Give me a moment to think. Then I would like to skip this question. | It respects the pause and skip, and marks the unanswered area for human review. |
 
-Rows that describe tool actions require the optional public HTTPS tool configuration. In default mode, expect the limitations described above. These are acceptance cases to try, not a claim that a live voice run has passed. For the full scenario matrix, see [acceptance.md](scenarios/06-recruitment-screening/acceptance.md).
+Rows that describe tool actions require the optional public HTTPS tool configuration. In default mode, expect the limitations described above. These are acceptance cases to try, not a claim that a live voice run has passed. For the full scenario matrix, see [acceptance.md](docs/scenario/acceptance.md).
 
 ## 3. Architecture & Tech Stack
 
@@ -61,7 +61,7 @@ flowchart LR
 | Next.js route handlers | Keep the App Certificate server-side, issue combined RTC/RTM tokens and manage Agent sessions. |
 | Scenario modules | Supply instructions, demo data and the optional business API/tool contracts. |
 
-The client uses `agora-rtc-react`, `agora-rtc-sdk-ng`, `agora-rtm` and `agora-agent-client-toolkit`; the server uses `agora-agents`. The configured pipeline is Deepgram nova-3 → OpenAI gpt-4o-mini → MiniMax speech_2_6_turbo with English speech. See [the invite route](app/api/invite-agent/route.ts) and [runtime profile](scenarios/runtime-profile.ts) when changing providers. No separate vendor API key is required for the default Agora-managed configuration.
+The client uses `agora-rtc-react`, `agora-rtc-sdk-ng`, `agora-rtm` and `agora-agent-client-toolkit`; the server uses `agora-agents`. The configured pipeline is Deepgram nova-3 → OpenAI gpt-4o-mini → MiniMax speech_2_6_turbo with English speech. See [the invite route](app/api/invite-agent/route.ts) and [runtime profile](lib/runtime-profile.ts) when changing providers. No separate vendor API key is required for the default Agora-managed configuration.
 
 ## 4. Prerequisites & Configuration
 
@@ -114,24 +114,24 @@ Open [http://localhost:3000](http://localhost:3000), choose **Start screening in
 
 `save_screening_result` sends `candidate_id` and `answers` to `POST /api/scenarios/06-recruitment-screening/results`. `screening.ts` compares the modeled experience, skills, availability and interest fields against job requirements. Detailed incident examples can be discussed but are not fully represented in this result schema.
 
-The invite body contains `requester_id` and `channel_name`. The invite route configures the longer silence window and LLM history for new sessions. The supplied browser already handles this startup sequence. See [the scenario guide](scenarios/06-recruitment-screening/README.md) for additional behavior and contracts.
+The invite body contains `requester_id` and `channel_name`. The invite route configures the longer silence window and LLM history for new sessions. The supplied browser already handles this startup sequence. See [the scenario guide](docs/scenario/README.md) for additional behavior and contracts.
 
 ## 7. Customize for Your Business
 
 | Change | Source | How |
 | --- | --- | --- |
-| Role requirements and questions | [job.json](scenarios/06-recruitment-screening/job.json) | Replace the Support Engineer requirements, six topics and follow-up options. |
-| Interview behavior | [config.ts](scenarios/06-recruitment-screening/config.ts) | Adapt question order, skip behavior, evidence requests and review language. |
-| Structured result | [screening.ts](scenarios/06-recruitment-screening/screening.ts) | Keep factual matches and missing fields separate; synchronize the result route and tool schema when adding fields. |
+| Role requirements and questions | [job.json](lib/recruitment-screening/job.json) | Replace the Support Engineer requirements, six topics and follow-up options. |
+| Interview behavior | [config.ts](lib/agent-config.ts) | Adapt question order, skip behavior, evidence requests and review language. |
+| Structured result | [screening.ts](lib/recruitment-screening/screening.ts) | Keep factual matches and missing fields separate; synchronize the result route and tool schema when adding fields. |
 
 To screen another technical role, replace job.json and try one detailed answer, one vague answer and one skipped topic. If your ATS needs detailed incident evidence, extend the typed schema and add authenticated persistence; renaming the tool does not save a candidate record.
 
 Shared integration points:
 
-- [scenarios/index.ts](scenarios/index.ts) assembles the selected scenario prompt.
-- [scenarios/tool-contracts.ts](scenarios/tool-contracts.ts) defines business tool schemas and server-bound routes.
+- [lib/agent-config.ts](lib/agent-config.ts) assembles the selected scenario prompt.
+- [lib/agent-tools.ts](lib/agent-tools.ts) defines business tool schemas and server-bound routes.
 - [app/api/invite-agent/route.ts](app/api/invite-agent/route.ts) selects the prompt, providers, turn detection and session settings.
-- [scenarios/presentation.ts](scenarios/presentation.ts) selects the scenario presentation; edit its scenario module for visible content.
+- [lib/presentation.ts](lib/presentation.ts) selects the scenario presentation; edit its scenario module for visible content.
 - [docs/ai/RECIPE.md](docs/ai/RECIPE.md) retains the machine-readable integration profile and lifecycle contracts.
 
 Keep combined RTC/RTM token generation, the StrictMode initialization guard, toolkit local-user UID remapping and interrupted transcript turns intact. Let the Agora React hooks own microphone and RTC teardown. Preserve server-bound business session scope when extending tools.
@@ -211,4 +211,4 @@ With the local prerequisites and credentials configured, also run `pnpm run veri
 | The assistant discusses the task but does not save or change it | Check whether the optional public tool origin is enabled. The default conversation has the limits in section 1. |
 | A tool fails or a result disappears | Inspect the actual API error, callback reachability and this scenario's storage/lifetime limits; do not claim success from speech alone. |
 
-See [the contributor guide](AGENTS.md), [scenario guide](scenarios/06-recruitment-screening/README.md) and [MIT License](LICENSE) for further details.
+See [the contributor guide](AGENTS.md), [scenario guide](docs/scenario/README.md) and [MIT License](LICENSE) for further details.
