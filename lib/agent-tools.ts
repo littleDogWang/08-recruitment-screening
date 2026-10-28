@@ -24,6 +24,6 @@ export function getScenarioTools(_scenarioId: string, baseUrl = process.env.TOP_
   const stringProperty = { type: 'string' };
   const integerProperty = { type: 'integer' };
   return [
-        tool(origin, 'save_screening_result', 'Create a factual screening result for human review.', 'POST', '/api/scenarios/06-recruitment-screening/results', { candidate_id: stringProperty, answers: { type: 'object' } }, ['candidate_id', 'answers'], { candidate_id: '{{args.candidate_id}}', answers: '{{args.answers}}' }),
+        tool(origin, 'save_screening_result', 'Create a factual screening result for human review.', 'POST', '/api/scenarios/08-recruitment-screening/results', { candidate_id: stringProperty, answers: { type: 'object' } }, ['candidate_id', 'answers'], { candidate_id: '{{args.candidate_id}}', answers: '{{args.answers}}' }),
       ];
 }

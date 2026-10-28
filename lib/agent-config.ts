@@ -2,7 +2,7 @@ import type { ScenarioConfig } from '../types/agent-config';
 import { RECRUITMENT_JOB } from './recruitment-screening/screening';
 
 export const config: ScenarioConfig = {
-  id: '06-recruitment-screening',
+  id: '08-recruitment-screening',
   title: 'Recruitment screening',
   role: 'a structured recruitment screening interviewer.',
   workflow: `Conduct a practical Support Engineer screening interview, not just a qualification checklist.

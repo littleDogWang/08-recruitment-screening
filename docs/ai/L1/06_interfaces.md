@@ -9,7 +9,7 @@
 - `POST /api/stop-conversation`: requires agent_id; already-stopping/not-found handling is idempotent.
 - `POST /api/chat/completions`: optional custom-LLM proxy, not used by the default managed pipeline.
 
-`save_screening_result` sends `candidate_id` and `answers` to `POST /api/scenarios/06-recruitment-screening/results`. `screening.ts` compares the modeled experience, skills, availability and interest fields against job requirements. Detailed incident examples can be discussed but are not fully represented in this result schema.
+`save_screening_result` sends `candidate_id` and `answers` to `POST /api/scenarios/08-recruitment-screening/results`. `screening.ts` compares the modeled experience, skills, availability and interest fields against job requirements. Detailed incident examples can be discussed but are not fully represented in this result schema.
 
 Job requirements and interview topics are in the prompt. Candidate answers are summarized verbally; no candidate record is saved.
 

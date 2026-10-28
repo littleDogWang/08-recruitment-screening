@@ -1,6 +1,6 @@
 # Agent Development Guide
 
-This guide is for coding agents making changes in `06-recruitment-screening`.
+This guide is for coding agents making changes in `08-recruitment-screening`.
 
 
 ## U.S. scenario content

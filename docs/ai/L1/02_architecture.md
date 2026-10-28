@@ -12,7 +12,7 @@ The user start action creates any necessary scenario session, fetches the combin
 
 The invite body contains `requester_id` and `channel_name`. The invite route configures the longer silence window and LLM history for new sessions.
 
-`save_screening_result` sends `candidate_id` and `answers` to `POST /api/scenarios/06-recruitment-screening/results`. `screening.ts` compares the modeled experience, skills, availability and interest fields against job requirements. Detailed incident examples can be discussed but are not fully represented in this result schema.
+`save_screening_result` sends `candidate_id` and `answers` to `POST /api/scenarios/08-recruitment-screening/results`. `screening.ts` compares the modeled experience, skills, availability and interest fields against job requirements. Detailed incident examples can be discussed but are not fully represented in this result schema.
 
 ## Ownership Boundaries
 

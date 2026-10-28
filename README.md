@@ -16,8 +16,8 @@ Read the [eight-part recipe](RECIPE.md) for example conversations and business c
 ## Run It
 
 ```bash
-git clone https://github.com/littleDogWang/06-recruitment-screening.git
-cd 06-recruitment-screening
+git clone https://github.com/littleDogWang/08-recruitment-screening.git
+cd 08-recruitment-screening
 pnpm install --frozen-lockfile
 cp env.local.example .env.local
 ```
@@ -106,7 +106,7 @@ See [ARCHITECTURE.md](ARCHITECTURE.md) for topology, ownership and deployment de
 | Answer practical topics | Ask one main question and only relevant follow-ups; acknowledge already supplied evidence. | Six-topic coverage or explicit skipped areas. |
 | Discuss availability and review | Summarize confirmed facts and gaps, then request correction. | A human-review summary; a configured tool can return structured facts without storing them. |
 
-`save_screening_result` sends `candidate_id` and `answers` to `POST /api/scenarios/06-recruitment-screening/results`. `screening.ts` compares the modeled experience, skills, availability and interest fields against job requirements. Detailed incident examples can be discussed but are not fully represented in this result schema.
+`save_screening_result` sends `candidate_id` and `answers` to `POST /api/scenarios/08-recruitment-screening/results`. `screening.ts` compares the modeled experience, skills, availability and interest fields against job requirements. Detailed incident examples can be discussed but are not fully represented in this result schema.
 
 The invite body contains `requester_id` and `channel_name`. The invite route configures the longer silence window and LLM history for new sessions.
 
@@ -137,8 +137,8 @@ Native hosting runs `pnpm run build` and `pnpm run start` on the documented Node
 ### Docker
 
 ```bash
-docker build --build-arg NEXT_PUBLIC_AGORA_APP_ID=YOUR_AGORA_APP_ID -t 06-recruitment-screening:local .
-docker run --rm -p 3000:3000 --env-file .env.local 06-recruitment-screening:local
+docker build --build-arg NEXT_PUBLIC_AGORA_APP_ID=YOUR_AGORA_APP_ID -t 08-recruitment-screening:local .
+docker run --rm -p 3000:3000 --env-file .env.local 08-recruitment-screening:local
 ```
 
 Replace `YOUR_AGORA_APP_ID` with the public App ID used in `.env.local`. Next.js embeds that identifier in the browser bundle, so changing projects requires rebuilding the image. The App Certificate is supplied only at container runtime. A container restart does not preserve process memory. This image does not add a shared state service.

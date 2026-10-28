@@ -2,7 +2,7 @@
 
 Collect practical candidate evidence for human review.
 
-[Try locally](#2-try-the-demo) · [Source on GitHub](https://github.com/littleDogWang/06-recruitment-screening) · [Build with AI](#build-with-ai)
+[Try locally](#2-try-the-demo) · [Source on GitHub](https://github.com/littleDogWang/08-recruitment-screening) · [Build with AI](#build-with-ai)
 
 TypeScript · Web · Next.js 16 / React 19 · Agora Conversational AI
 
@@ -85,8 +85,8 @@ Leave `TOP_TEN_SCENARIO_TOOL_BASE_URL` unset for the default conversation. To en
 From a terminal, clone this scenario rather than the generic starter:
 
 ```bash
-git clone https://github.com/littleDogWang/06-recruitment-screening.git
-cd 06-recruitment-screening
+git clone https://github.com/littleDogWang/08-recruitment-screening.git
+cd 08-recruitment-screening
 pnpm install --frozen-lockfile
 cp env.local.example .env.local
 ```
@@ -112,7 +112,7 @@ Open [http://localhost:3000](http://localhost:3000), choose **Start screening in
 
 ### Tools and result semantics
 
-`save_screening_result` sends `candidate_id` and `answers` to `POST /api/scenarios/06-recruitment-screening/results`. `screening.ts` compares the modeled experience, skills, availability and interest fields against job requirements. Detailed incident examples can be discussed but are not fully represented in this result schema.
+`save_screening_result` sends `candidate_id` and `answers` to `POST /api/scenarios/08-recruitment-screening/results`. `screening.ts` compares the modeled experience, skills, availability and interest fields against job requirements. Detailed incident examples can be discussed but are not fully represented in this result schema.
 
 The invite body contains `requester_id` and `channel_name`. The invite route configures the longer silence window and LLM history for new sessions. The supplied browser already handles this startup sequence. See [the scenario guide](docs/scenario/README.md) for additional behavior and contracts.
 
@@ -143,7 +143,7 @@ After cloning this repository, paste the following into your coding agent from y
 ```text
 Implement the Support Engineer Screening Interview recipe in my application.
 
-Read RECIPE.md in the cloned 06-recruitment-screening repository first, then inspect
+Read RECIPE.md in the cloned 08-recruitment-screening repository first, then inspect
 its scenario modules, tool contracts and invite route. Read docs/ai/RECIPE.md
 and AGENTS.md in that repository for integration constraints.
 
@@ -171,8 +171,8 @@ These commands describe the repository's supported scripts; they do not attest t
 ### Docker deployment
 
 ```bash
-docker build --build-arg NEXT_PUBLIC_AGORA_APP_ID=YOUR_AGORA_APP_ID -t 06-recruitment-screening:local .
-docker run --rm -p 3000:3000 --env-file .env.local 06-recruitment-screening:local
+docker build --build-arg NEXT_PUBLIC_AGORA_APP_ID=YOUR_AGORA_APP_ID -t 08-recruitment-screening:local .
+docker run --rm -p 3000:3000 --env-file .env.local 08-recruitment-screening:local
 ```
 
 Replace `YOUR_AGORA_APP_ID` with the public App ID used in `.env.local`. Next.js embeds that identifier in the browser bundle, so changing projects requires rebuilding the image. The App Certificate is supplied only at container runtime. A container restart does not preserve process memory. This image does not add a shared state service.
