@@ -1,45 +1,24 @@
-# 06 Recruitment screening
+# Recruitment Screening Assistant
 
-`job.json` defines job-related requirements. `screening.ts` maps candidate
-facts to matched and missing fields, and the results API always returns
-`human_review`. Sensitive personal information is excluded from scoring.
+Practice a structured screening conversation with follow-up questions and a verbal recap.
 
-The interviewer covers incident ownership, API troubleshooting, network diagnosis,
-production incident response, customer communication, and resolution/prevention.
-Each topic has a practical main question and up to two follow-ups, asked one at a
-time when evidence is missing. `config.ts` includes the `job.json` questions in
-the agent prompt. End-of-speech detection allows 1,500 ms thinking pauses.
+## Conversation flow
 
-The results endpoint returns JSON without storing it. Technical examples and
-earliest start date can be discussed and summarized in the conversation; the
-results schema only models experience, skills, availability, and interest.
+Explain that this is a screening conversation for the bundled Support Engineer role and ask whether the caller is ready. Ask one question per turn, covering incident ownership, API troubleshooting, network diagnosis, incident prioritization, customer communication and prevention. Ask relevant follow-ups from the role material and avoid repeating answers already given. Allow thinking pauses and accept corrections. At the caller's request, give a factual verbal recap grounded in their actual answers, leave missing evidence unknown, and explain that a human interviewer makes hiring decisions.
 
-## Reference cases
+## Boundaries
 
-The local research catalogue groups these references under recruitment screening:
+No candidate profile, ATS, application or stored interview record is connected. Do not request identity documents, sensitive personal details or secrets. Do not save or submit answers, assign a hiring score, make an employment decision, schedule an interview or claim the candidate advanced to another stage. Never invent experience that the caller did not describe.
 
-- [Build an AI Recruiter Voice Agent | Vapi + n8n Tutorial](https://vapi.ai/library/build-an-ai-recruiter-voice-agent-vapi-n8n-tutorial)
-- [Automated HR Screening with VAPI AI Calls, Gemini Analysis & Google Sheets](https://n8n.io/workflows/5790-automated-hr-screening-with-vapi-ai-calls-gemini-analysis-and-google-sheets/)
-- [Automated Phone Interview Evaluation with Vapi, GPT-4o & Google Sheets](https://n8n.io/workflows/7401-automated-phone-interview-evaluation-with-vapi-gpt-4o-and-google-sheets/)
+This first version is conversation-only. No business data lookup, external tools, database, record writes, saved results, or cross-session business history are available. Keep user-provided details only in the current conversation. Never claim an order, appointment, registration, feedback submission, callback, payment, shipment or other external action was created, saved or completed. Offer a verbal summary and explain the appropriate human next step instead. Do not request passwords, verification codes, payment details or unnecessary personal identifiers.
 
-The catalogue describes candidate outreach, transcription, structured feedback,
-and Google Sheets integration. It does not identify a single template as the exact
-source of this implementation. The Support Engineer requirements and questions
-are local fixtures. These references do not establish a live external integration.
+## Trying the conversation
 
+- I am ready to discuss my support engineering experience.
+- Please summarize the examples I shared before we finish.
 
-## Local conversation and optional tools
+Ask for a verbal recap before ending. Only the current page retains transcript and diagnostic state; no result, order, appointment, registration or feedback record is saved.
 
-Default conversations retain the job.json requirements and six interview topics already embedded in the prompt. The assistant gathers candidate statements and verbally summarizes facts for human review; it does not save records or make hiring decisions. The optional tool returns a structured result only, without durable persistence.
+## Implementation
 
-TOP_TEN_SCENARIO_TOOL_BASE_URL is optional. Only an explicitly configured public HTTPS endpoint enables tools; malformed, HTTP, localhost and local/private origins leave tools disabled. URL validation does not prove network reachability. No tunnel, knowledge base or database is needed for the default conversation. Local checks do not establish live speech or cloud callback acceptance.
-
-## Source locations
-
-This guide lives in documentation; executable code uses the standalone Next.js
-Quickstart layout. Agent instructions and prompt assembly are in
-[lib/agent-config.ts](../../lib/agent-config.ts), optional tool contracts are in
-[lib/agent-tools.ts](../../lib/agent-tools.ts), and presentation content is in
-[lib/presentation.ts](../../lib/presentation.ts). Business modules and fixtures
-live in [lib/recruitment-screening/](../../lib/recruitment-screening/). File basenames in this guide
-refer to these source locations, not to files next to this document.
+Behavior lives in lib/agent-config.ts. The page uses the shared voice lifecycle. lib/agent-tools.ts is empty and all business API routes return HTTP 410. See [acceptance cases](acceptance.md).

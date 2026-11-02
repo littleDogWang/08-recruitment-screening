@@ -1,34 +1,25 @@
-# Recruitment screening acceptance criteria
+# Conversation-Only Acceptance
 
-## Required checks
+## Local regression
 
-- Question order matches the job requirements.
-- Answers map to explicit fields; missing information stays missing.
-- Output includes human review status without making hiring or rejection decisions.
-- Sensitive information is not used for automated scoring.
-- Confirmed facts remain in the conversation summary when the user declines to answer or ends early; do not claim persistence.
-- The outgoing agent configuration uses 1,500 ms of end-of-speech silence and preserves candidate barge-in.
-- In a microphone test, 500-1,000 ms pauses within an answer do not trigger the next question.
-- Cover all six practical topics unless already answered, skipped, or ended by the candidate.
-- Ask one question per turn; follow up on vague answers with requests for evidence, personal actions, or verification.
-- Do not reveal model answers before the candidate responds; distinguish experience from hypothetical reasoning.
+- Run pnpm run verify.
+- A mocked Agent starts with only requester_id and channel_name.
+- Setting the former business-tool origin must not enable tools or create data state.
+- Business API routes return HTTP 410 and old data workbenches are not rendered.
 
-## Suggested cases
+## Browser checks
 
-1. Answer all job requirement questions.
-2. Omit the start date.
-3. Decline an unnecessary question.
-4. Volunteer sensitive information.
-5. End early and proceed to human review.
-6. Describe an incident with several 500-1,000 ms pauses; confirm the interviewer waits until the answer finishes.
-7. Give a vague API troubleshooting answer; confirm a follow-up asks for diagnostic evidence.
-8. Include escalation in an earlier incident answer; confirm the interviewer avoids repeating answered questions.
-9. Complete all six topics with follow-ups; confirm earlier facts remain accurate in the closing summary.
+- Desktop and mobile initial Dialog, Preview first and persistent identity identify this scenario.
+- The start control is enabled without a business record or shopping session.
+- The first application request on start is the token request, with no business API call.
+- A failed token/invite is reported honestly and allows a retry.
 
-Live microphone checks remain required; passing API or build checks alone does not establish conversational behavior.
+## Real voice checks
 
-## Evidence
+- Say: I am ready to discuss my support engineering experience.
+- Say: Please summarize the examples I shared before we finish.
+- Ask for a recap, interrupt, correct an earlier detail and request to stop.
+- The assistant never claims a lookup, saved result or external action.
+- Check actual two-way audio, both transcript roles, microphone controls and clean Agent stop.
 
-- Structured screening JSON.
-- Scoring/rule input and output comparison.
-- Test records showing sensitive information did not influence conclusions.
+Mocked checks and browser screenshots do not establish real speech, model behavior or public deployment acceptance.

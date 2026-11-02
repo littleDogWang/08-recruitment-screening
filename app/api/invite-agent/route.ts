@@ -47,7 +47,7 @@ export async function POST(request: NextRequest) {
     // AgoraClient authenticates API calls to the Agora Conversational AI service.
     // area: change to Area.EU or Area.AP for European or Asia-Pacific deployments.
     const scenario = getScenarioConfig();
-    const scenarioTools = getScenarioTools(scenario.id);
+    const scenarioTools = getScenarioTools();
     const client = new AgoraClient({
       area: Area.US,
       appId,
@@ -76,14 +76,14 @@ export async function POST(request: NextRequest) {
           end_of_speech: {
             mode: 'vad',
             vad_config: {
-              silence_duration_ms: 1500, // Allow thinking pauses during interview answers.
+              silence_duration_ms: 1500, // ms of silence before turn ends
             },
           },
         },
       },
       // RTM is required for transcript events in the browser client.
-      // Enable execution only when this session has configured REST tools.
-      advancedFeatures: { enable_rtm: true, enable_tools: scenarioTools.length > 0 },
+      // This first version never enables business tools.
+      advancedFeatures: { enable_rtm: true, enable_tools: false },
       // Required for browser RTM events:
       // - data_channel: 'rtm' enables RTM delivery path for state/metrics/errors
       // - enable_error_message emits AGENT_ERROR payloads
@@ -113,7 +113,7 @@ export async function POST(request: NextRequest) {
           model: RUNTIME_PROFILE.reasoning.model,
           greetingMessage: scenario.greeting,
           failureMessage: 'Please wait a moment.',
-          maxHistory: 50, // Retain answers across the interview and follow-up questions.
+          maxHistory: 50,
           tools: scenarioTools.length > 0 ? scenarioTools : undefined,
           params: {
             max_tokens: 1024,

@@ -1,44 +1,87 @@
 import type { ScenarioConfig } from '../types/agent-config';
-import { RECRUITMENT_JOB } from './recruitment-screening/screening';
 
 export const config: ScenarioConfig = {
-  id: '08-recruitment-screening',
-  title: 'Recruitment screening',
-  role: 'a structured recruitment screening interviewer.',
-  workflow: `Conduct a practical Support Engineer screening interview, not just a qualification checklist.
-After the candidate agrees to proceed, briefly establish their relevant experience and interest in the role.
-Then cover all six interview topics below in order before wrapping up, unless the candidate asks to stop or skip.
-Ask exactly one question per turn and wait for the full answer. Keep your own turns short.
-For each topic, start with its main question. If the answer is vague or lacks evidence, ask one relevant follow-up at a time, up to two per topic.
-Use the candidate's answer to choose the follow-up: seek specific actions, diagnostic evidence, trade-offs, verification, or outcomes rather than repeating the same question.
-If they already covered a topic with enough detail, acknowledge it and move on without asking them to repeat it.
-Accept hypothetical reasoning if the candidate has no matching past incident; record that distinction instead of inventing experience.
-Do not teach the ideal answer or reveal the follow-up prompts before the candidate answers.
-Respect thinking pauses. If an utterance is clearly unfinished or the candidate asks for a moment, let them continue without introducing the next question.
-Finish by asking about weekday business-hours availability and earliest start date, one question at a time. Give the candidate an opportunity to ask a question.
-Summarize the candidate's stated facts, concrete technical examples, and unanswered areas for human review. Ask whether the summary is accurate before ending.
-If the candidate skips a question or stops early, retain confirmed facts in the summary and mark unanswered areas as missing; never pressure them to continue.`,
-  guardrails: 'Do not make an automatic hiring or rejection decision or assign a hiring score. Return facts and missing fields for human review only. Do not ask about or use age, gender, health, ethnicity, family status, religion, or other sensitive personal information. Do not request credentials, access tokens, customer personal data, or confidential incident logs; ask for anonymized examples. Treat answers as candidate statements, not independently verified facts. Do not claim the structured results endpoint stores records: it only returns a human-review result.',
-  greeting: 'Hi, this is a screening interview for the Support Engineer role. We will discuss your experience and a few practical support situations for human review. Is now a good time?',
-  fixtureSummary: `Job fixture ${RECRUITMENT_JOB.jobId}: ${RECRUITMENT_JOB.title}. Required facts are ${RECRUITMENT_JOB.requirements.requiredSkills.join(', ')}, ${RECRUITMENT_JOB.requirements.minimumYearsExperience}+ years of experience, and availability during ${RECRUITMENT_JOB.requirements.availability}.
-
-Interview questions (interviewer guidance; do not read the entire list aloud):
-${RECRUITMENT_JOB.interviewQuestions.map((item, index) => `${index + 1}. ${item.topic}: ${item.question}\nFollow-up options (ask separately, only as needed): ${item.followUps.join(' | ')}`).join('\n\n')}`,
+  "id": "08-recruitment-screening",
+  "title": "Recruitment Screening Assistant",
+  "role": "support-engineer interview assistant",
+  "workflow": "Explain that this is a screening conversation for the bundled Support Engineer role and ask whether the caller is ready. Ask one question per turn, covering incident ownership, API troubleshooting, network diagnosis, incident prioritization, customer communication and prevention. Ask relevant follow-ups from the role material and avoid repeating answers already given. Allow thinking pauses and accept corrections. At the caller's request, give a factual verbal recap grounded in their actual answers, leave missing evidence unknown, and explain that a human interviewer makes hiring decisions.",
+  "guardrails": "No candidate profile, ATS, application or stored interview record is connected. Do not request identity documents, sensitive personal details or secrets. Do not save or submit answers, assign a hiring score, make an employment decision, schedule an interview or claim the candidate advanced to another stage. Never invent experience that the caller did not describe.",
+  "greeting": "Hi, I can guide you through a Support Engineer screening conversation. We will take one question at a time. Are you ready to begin?"
 };
 
-function formatScenarioPrompt(config: ScenarioConfig): string {
-  return `You are the ${config.role}
-
-# Goal and conversation flow
-${config.workflow}
-
-# Safety and truthfulness rules
-${config.guardrails}
-
-# Demo boundary
-This browser demo only has the capabilities described in this scenario. Never claim that an external action, booking, update, payment, transfer, or record write succeeded unless a configured tool returned that result.
-${config.fixtureSummary ? `\n# Demo data\n${config.fixtureSummary}` : ''}`;
-}
+const publicReference = {
+  "version": "2026-10-16",
+  "jobId": "support-engineer-01",
+  "title": "Support Engineer",
+  "requirements": {
+    "minimumYearsExperience": 2,
+    "requiredSkills": [
+      "customer support",
+      "troubleshooting",
+      "written English"
+    ],
+    "availability": "weekday business hours"
+  },
+  "interviewQuestions": [
+    {
+      "topic": "Incident ownership",
+      "question": "Walk me through a difficult customer support incident you personally handled.",
+      "followUps": [
+        "What evidence helped you narrow down the cause?",
+        "What did you personally change, and how did you verify recovery?"
+      ]
+    },
+    {
+      "topic": "API troubleshooting",
+      "question": "A customer reports intermittent HTTP 500 errors after a release. How would you begin investigating?",
+      "followUps": [
+        "Which request details, timestamps, or logs would you collect first?",
+        "How would you distinguish a client configuration problem from a server regression?"
+      ]
+    },
+    {
+      "topic": "Network diagnosis",
+      "question": "An integration works on your network but times out on the customer's network. How would you isolate the problem?",
+      "followUps": [
+        "What would you check to separate DNS, TLS, proxy, and application failures?",
+        "What comparison or test would support your leading hypothesis?"
+      ]
+    },
+    {
+      "topic": "Production incident response",
+      "question": "Several customers report an outage while another has a minor configuration issue. How would you prioritize the work?",
+      "followUps": [
+        "What impact and severity information would you collect?",
+        "When would you escalate, and what evidence would you include in the handoff?"
+      ]
+    },
+    {
+      "topic": "Customer communication",
+      "question": "A frustrated customer asks for a recovery time you cannot confirm. What would you tell them?",
+      "followUps": [
+        "Give me the short customer update you would write in English.",
+        "How would you set the next update time without promising a resolution?"
+      ]
+    },
+    {
+      "topic": "Resolution and prevention",
+      "question": "A workaround restores service, but the root cause is still unknown. What would you do before closing the support case?",
+      "followUps": [
+        "How would you verify the workaround with the customer?",
+        "What would you document or share with engineering to prevent a repeat?"
+      ]
+    }
+  ]
+};
 
 export function getScenarioConfig(): ScenarioConfig { return config; }
-export function getScenarioPrompt(_scenarioId?: string): string { return formatScenarioPrompt(config); }
+
+export function getScenarioPrompt(_scenarioId?: string, ..._inactiveOptions: unknown[]): string {
+  return [
+    'You are the ' + config.role + '.',
+    '# Goal and conversation flow', config.workflow,
+    '# Safety and truthfulness rules', config.guardrails,
+    '# First-version boundary', "This first version is conversation-only. No business data lookup, external tools, database, record writes, saved results, or cross-session business history are available. Keep user-provided details only in the current conversation. Never claim an order, appointment, registration, feedback submission, callback, payment, shipment or other external action was created, saved or completed. Offer a verbal summary and explain the appropriate human next step instead. Do not request passwords, verification codes, payment details or unnecessary personal identifiers.",
+    publicReference ? '# Static public reference material (illustrative, not live business records)\n' + JSON.stringify(publicReference) : '',
+  ].filter(Boolean).join('\n\n');
+}

@@ -4,24 +4,24 @@ export type { ScenarioPresentation } from '@/types/presentation';
 export const presentation: ScenarioPresentation = {
   "id": "08-recruitment-screening",
   "name": "Recruitment Screening Assistant",
-  "purpose": "Practical Support Engineer interview",
+  "purpose": "Scenario voice conversation",
   "headline": [
     "An interview with depth."
   ],
-  "summary": "Discuss your experience and practical support situations, one question at a time.",
-  "featuresHeading": "Beyond starter",
+  "summary": "Practice a structured screening conversation with follow-up questions and a verbal recap.",
+  "featuresHeading": "In this conversation",
   "features": [
     {
       "emoji": "💬",
-      "title": "Six interview topics"
+      "title": "Structured interview questions"
     },
     {
-      "emoji": "🔎",
-      "title": "Relevant follow-up questions"
+      "emoji": "🎙️",
+      "title": "Relevant follow-ups"
     },
     {
-      "emoji": "📋",
-      "title": "Summary for human review"
+      "emoji": "📝",
+      "title": "Verbal evidence recap"
     }
   ],
   "builtWith": [
@@ -30,22 +30,22 @@ export const presentation: ScenarioPresentation = {
     "Next.js"
   ],
   "startLabel": "Start screening interview",
-  "boundaryShort": "Candidate statements for human review. No automated hiring decision or stored interview record.",
+  "boundaryShort": "Conversation only. No candidate records, submitted results, hiring scores or decisions.",
   "outcomes": [
     {
-      "id": "completed",
-      "label": "I completed the interview"
+      "id": "helpful",
+      "label": "The conversation helped"
     },
     {
-      "id": "incomplete",
-      "label": "I stopped before finishing"
+      "id": "needs-guidance",
+      "label": "I need more guidance"
     }
   ],
   "developer": {
-    "sourceUrl": "https://github.com/AgoraIO-Conversational-AI/agent-quickstart-nextjs",
-    "runCommand": "pnpm install\nagora login\nagora project use <your-project>\nagora project env write .env.local\npnpm dev",
+    "sourceUrl": "https://github.com/littleDogWang/08-recruitment-screening",
+    "runCommand": "pnpm install --frozen-lockfile\npnpm run doctor\npnpm run dev",
     "skillsCommand": "npx skills add github:AgoraIO/skills",
-    "assistantPrompt": "Use Agora Skills to work in the existing 08-recruitment-screening scenario checkout. Preserve the working Agora session lifecycle and business contracts. Help me adapt its business data and assistant instructions for my workflow.",
+    "assistantPrompt": "Work in this existing 08-recruitment-screening voice demo. Preserve Agora RTC/RTM lifecycle and the conversation-only first-version boundary. Adapt the assistant instructions and static public background without adding business tools, records, data APIs or persistence.",
     "docsUrl": "https://docs.agora.io/en/ai/build/build-server-client",
     "sdkUrl": "https://www.npmjs.com/package/agora-agents",
     "consoleUrl": "https://console.agora.io/",
@@ -53,25 +53,19 @@ export const presentation: ScenarioPresentation = {
     "skillsUrl": "https://github.com/AgoraIO/skills",
     "extensionPoints": [
       {
-        "title": "Change assistant instructions",
+        "title": "Change the conversation",
         "path": "lib/agent-config.ts"
       },
       {
-        "title": "Adapt screening.ts",
-        "path": "lib/recruitment-screening/screening.ts"
-      },
-      {
         "title": "Choose models and voice",
-        "path": "app/api/invite-agent/route.ts"
+        "path": "lib/runtime-profile.ts"
       },
       {
-        "title": "Adapt scenario UI content",
+        "title": "Adapt scenario UI copy",
         "path": "lib/presentation.ts"
       }
     ]
   }
 };
 
-export function getScenarioPresentation(): ScenarioPresentation {
-  return presentation;
-}
+export function getScenarioPresentation(): ScenarioPresentation { return presentation; }
