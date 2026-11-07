@@ -4,10 +4,7 @@ export type { ScenarioPresentation } from '@/types/presentation';
 export const presentation: ScenarioPresentation = {
   "id": "08-recruitment-screening",
   "name": "Recruitment Screening Assistant",
-  "purpose": "Scenario voice conversation",
-  "headline": [
-    "An interview with depth."
-  ],
+  "purpose": "Support Engineer interview practice",
   "summary": "Practice a structured screening conversation with follow-up questions and a verbal recap.",
   "featuresHeading": "In this conversation",
   "features": [
@@ -42,10 +39,10 @@ export const presentation: ScenarioPresentation = {
     }
   ],
   "developer": {
-    "sourceUrl": "https://github.com/littleDogWang/08-recruitment-screening",
+    "sourceUrl": "https://github.com/AgoraIO-Community/recruitment-screening-assistant",
     "runCommand": "pnpm install --frozen-lockfile\npnpm run doctor\npnpm run dev",
     "skillsCommand": "npx skills add github:AgoraIO/skills",
-    "assistantPrompt": "Work in this existing 08-recruitment-screening voice demo. Preserve Agora RTC/RTM lifecycle and the conversation-only first-version boundary. Adapt the assistant instructions and static public background without adding business tools, records, data APIs or persistence.",
+    "assistantPrompt": "Work in this existing Recruitment Screening Assistant voice demo. Preserve Agora RTC/RTM lifecycle and the conversation-only first-version boundary. Adapt the assistant instructions and static public background without adding business tools, records, data APIs or persistence.",
     "docsUrl": "https://docs.agora.io/en/ai/build/build-server-client",
     "sdkUrl": "https://www.npmjs.com/package/agora-agents",
     "consoleUrl": "https://console.agora.io/",
